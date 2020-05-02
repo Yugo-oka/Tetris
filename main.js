@@ -209,8 +209,40 @@ var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
 var field;
- 
+
+var btype, brot;
+var bx, by;
+var cnt;
+
 function init() {
+
+  cnt = 1; // カウンタ変数
+  bx = 4; // ブロックのX座標（マス）
+	by = 0; // ブロックのY座標（マス）
+	btype = 0; // ブロックの種類
+	brot = 0; // ブロックの回転種類
+}
+
+//	更新関数
+function update() {
+	if(cnt % 30 == 0) {
+		by++; // ブロックを１マス落下
+	}
+}
+
+//	落下ブロックの描画
+function drawBlock() {
+	context.fillStyle = "rgba(255, 100, 100, 1.0)"; // 赤色に設定
+	
+	//	ブロックを描画
+	for(var i = 0;i < BLOCK_HEIGHT;i++) {
+		for(var j = 0;j < BLOCK_WIDTH;j++) {
+			if(block[btype][brot][i][j] == 1) {
+				context.fillRect(FIELD_X + (bx + j) * 25, FIELD_Y + (by + i) * 25, 25, 25);
+			}
+		}
+  }
+  
 	field = [ // Fieldの内容
 	[9, 9, 9, 0, 0, 0, 0, 0, 0, 9, 9, 9,],
 	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
@@ -274,9 +306,12 @@ init();
 requestAnimationFrame(main);
 function main() {
 	context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // 画面クリア
-	
+  
+  update(); // 更新
+  drawBlock(); // ブロックを描画
   drawField(); // フィールドを描画
   drawFrame(); // フィールド枠を描画
-	
+
+	cnt++; // カウンタを更新
 	requestAnimationFrame(main);
 }
