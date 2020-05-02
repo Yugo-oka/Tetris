@@ -255,12 +255,28 @@ function drawField() {
 	}
 }
 
+//	フィールド枠描画
+function drawFrame() {
+	context.fillStyle = "rgba(230, 230, 230, 1.0)"; // 白色に設定
+	
+	//	縦線を描画
+	for(var i = 0;i < FIELD_WIDTH + 1;i++) {
+		context.fillRect(FIELD_X + i * 25, FIELD_Y, 1, 25 * FIELD_HEIGHT);
+	}
+	
+	//	横線を描画
+	for(var i = 0;i < FIELD_HEIGHT + 1;i++) {
+		context.fillRect(FIELD_X, FIELD_Y + i * 25, 25 * FIELD_WIDTH, 1);
+	}
+}
+
 init();
 requestAnimationFrame(main);
 function main() {
 	context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // 画面クリア
 	
-	drawField(); // フィールドを描画
+  drawField(); // フィールドを描画
+  drawFrame(); // フィールド枠を描画
 	
 	requestAnimationFrame(main);
 }
