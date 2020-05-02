@@ -4,6 +4,12 @@ let CANVAS_HEIGHT	= 600; // Canvasの高さ
 let BLOCK_WIDTH		= 4; // ブロックの領域幅
 let BLOCK_HEIGHT	= 4; // ブロックの領域高さ
 
+let FIELD_WIDTH		= 12; // フィールドの幅
+let FIELD_HEIGHT	= 22; // フィールドの高さ
+
+let FIELD_X			= 40; // フィールドのCanvas内のX座標
+let FIELD_Y			= 40; // フィールドのCanvas内のY座標
+ 
 let block = [ // ブロックの定義
   [	//	block type 0
     [
@@ -202,7 +208,59 @@ let block = [ // ブロックの定義
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
+var field;
+ 
+function init() {
+	field = [ // Fieldの内容
+	[9, 9, 9, 0, 0, 0, 0, 0, 0, 9, 9, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,],
+	[9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,],
+	];
+}
+ 
+init();
+
 requestAnimationFrame(main);
   function main() {
 requestAnimationFrame(main);
+}
+
+function drawField() {
+	for(var i = 0;i < FIELD_HEIGHT;i++) {
+		for(var j = 0;j < FIELD_WIDTH;j++) {
+			if(field[i][j] == 0) continue; // 「０」なら描画しない
+			
+			context.fillStyle = "rgba(150, 150, 150, 1.0)"; // グレーに設定
+			context.fillRect(FIELD_X + j * 25, FIELD_Y + i * 25, 25, 25); // 25×25の矩形（マス）を描画
+		}
+	}
+}
+
+init();
+requestAnimationFrame(main);
+function main() {
+	context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // 画面クリア
+	
+	drawField(); // フィールドを描画
+	
+	requestAnimationFrame(main);
 }
