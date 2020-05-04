@@ -396,9 +396,67 @@ function rowJudge(num) {
 	return flag;
 }
 
+//	キー操作関数
+function keyCtrl() {
+	if(key[KEY_RIGHT] <= 1 && key[KEY_LEFT] <= 1) {
+		bx += key[KEY_RIGHT] - key[KEY_LEFT]; // 横移動
+		
+		var breakflag = false;
+		for(var i = 0;i < BLOCK_HEIGHT;i++) {
+			for(var j = 0;j < BLOCK_WIDTH;j++) {
+				// 配列番号がおかしかったら処理しない
+				if(bx + j < 0 || bx + j >= FIELD_WIDTH ||
+					by + i < 0 || by + i >= FIELD_HEIGHT) continue;
+				
+				// 当たり判定
+				if(field[by + i][bx + j] != 0 && block[btype][brot][i][j] == 1) {
+					bx -= key[KEY_RIGHT] - key[KEY_LEFT]; // 移動距離分を戻す
+					breakflag = true; // ループを抜ける
+					break;
+				}
+			}
+			if(breakflag) break;
+		}
+		// キーの状態を更新
+		if(key[KEY_RIGHT] == 1) key[KEY_RIGHT]++;
+		else if(key[KEY_LEFT] == 1) key[KEY_LEFT]++;
+	}
+	
+	if(key[KEY_DOWN] <= 1 && key[KEY_UP] <= 1) {
+		brot += key[KEY_DOWN] - key[KEY_UP]; // 回転
+		if(brot < 0) brot = 3;
+		else if(brot > 3) brot = 0;
+    
+    var breakflag = false;
+		for(var i = 0;i < BLOCK_HEIGHT;i++) {
+			for(var j = 0;j < BLOCK_WIDTH;j++) {
+				// 配列番号がおかしかったら処理しない
+				if(bx + j < 0 || bx + j >= FIELD_WIDTH ||
+						by + i < 0 || by + i >= FIELD_HEIGHT) continue;
+				
+				// 当たり判定
+				if((field[by + i][bx + j] != 0 && block[btype][brot][i][j] == 1) ||
+					(block[btype][brot][i][j] == 1 && by + i < 0)) {
+					brot -= key[KEY_DOWN] - key[KEY_UP]; // 回転を戻す
+					if(brot < 0) brot = 3;
+					else if(brot > 3) brot = 0;
+					breakflag = true; // ループを抜ける
+					break;
+				}
+			}
+			if(breakflag) break;
+		}
+		
+		// キーの状態を更新
+		if(key[KEY_DOWN] == 1) key[KEY_DOWN]++;
+		else if(key[KEY_UP] == 1) key[KEY_UP]++;
+	}
+}
+
 //	更新関数
 function update() {
 	if(cnt % 30 == 0) {
+<<<<<<< HEAD
     if(dropflag) { // 落下フラグがオンなら
 			var num = 0; // 削除された行の番号
 			
@@ -444,6 +502,10 @@ function update() {
 		else if(!dropflag) {
     by++; // ブロックを１マス落下
     
+=======
+    by++; // ブロックを１マス落下
+
+>>>>>>> 2352ac75bf9ea07a6ee3341351bf79e73720c33d
     var breakflag = false;
 		for(var i = 0;i < BLOCK_HEIGHT;i++) {
 			for(var j = 0;j < BLOCK_WIDTH;j++) {
@@ -453,12 +515,16 @@ function update() {
 				
 				//	同じ座標（マス）にブロックとブロック・壁が重なったら
 				if(field[by + i][bx + j] != 0 && block[btype][brot][i][j] == 1) {
+<<<<<<< HEAD
           bflag = true; // ブロックの着地フラグをオンにする
+=======
+>>>>>>> 2352ac75bf9ea07a6ee3341351bf79e73720c33d
 					by--; // 移動距離分を戻す
 					breakflag = true; // ループを抜ける
 					break;
 				}
 			}
+<<<<<<< HEAD
       if(breakflag) break;
       }
 		}
@@ -520,7 +586,14 @@ function deleteJudge() {
 	
 	//	delflag の初期化
 	for(var i = 0;i < FIELD_HEIGHT;i++) delflag[i] = false;
+=======
+			if(breakflag) break;
+		}
+  }
+>>>>>>> 2352ac75bf9ea07a6ee3341351bf79e73720c33d
 }
+
+
 
 //	落下ブロックの描画
 function drawBlock() {
@@ -632,6 +705,7 @@ function drawFrame() {
 	}
 }
 
+<<<<<<< HEAD
 // ブロック初期化関数
 function initBlock() {
 	btype = Math.floor(Math.random() * 7);	//	落下ブロックの種類
@@ -642,6 +716,31 @@ function initBlock() {
 	else if(bcolor < 85)	bcolor = 3; // 緑色 20%
 	else					bcolor = 4; // 黄色 15%
 }
+=======
+document.addEventListener("keydown", e => { // キー押下処理
+	var keyCode = e.keyCode; // キーコードの取得
+	
+	switch(keyCode) {
+	case 39: key[KEY_RIGHT]++;	break;
+	case 37: key[KEY_LEFT]++;	break;
+	case 38: key[KEY_UP]++;		break;
+	case 40: key[KEY_DOWN]++;	break;
+  case 32: key[KEY_SPACE]++;	break;
+  }
+});
+
+document.addEventListener("keyup", e => { // キー離上処理
+	var keyCode = e.keyCode; // キーコードの取得
+	
+	switch(keyCode) {
+	case 39: key[KEY_RIGHT]	= 0; break;
+	case 37: key[KEY_LEFT]	= 0; break;
+	case 38: key[KEY_UP]	= 0; break;
+	case 40: key[KEY_DOWN]	= 0; break;
+	case 32: key[KEY_SPACE]	= 0; break;
+	}
+});
+>>>>>>> 2352ac75bf9ea07a6ee3341351bf79e73720c33d
 
 init();
 requestAnimationFrame(main);
